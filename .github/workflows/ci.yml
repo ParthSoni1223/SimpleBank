@@ -18,10 +18,10 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.21'  # Update to Go version 1.21 or higher
+        go-version: '1.21'  # Set to Go version 1.21
 
     - name: Install dependencies
-      run: go mod tidy  # Ensure dependencies are up to date
+      run: go mod tidy  # Make sure to install all dependencies
 
     - name: Test
-      run: make test
+      run: make test  # Run your tests
