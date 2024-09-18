@@ -12,7 +12,7 @@ CREATE TABLE entries (
   amount bigint NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT fk_account
-    FOREIGN KEY(account_id) 
+    FOREIGN KEY (account_id) 
     REFERENCES accounts(id)
 );
 
@@ -23,10 +23,10 @@ CREATE TABLE transfers (
   amount bigint NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT fk_from_account
-    FOREIGN KEY(from_account_id) 
+    FOREIGN KEY (from_account_id) 
     REFERENCES accounts(id),
   CONSTRAINT fk_to_account
-    FOREIGN KEY(to_account_id) 
+    FOREIGN KEY (to_account_id) 
     REFERENCES accounts(id)
 );
 
@@ -40,6 +40,7 @@ CREATE INDEX ON transfers (to_account_id);
 
 CREATE INDEX ON transfers (from_account_id, to_account_id);
 
+-- Adding comments for the columns
 COMMENT ON COLUMN entries.amount IS 'can be negative or positive';
 
 COMMENT ON COLUMN transfers.amount IS 'must be positive';
