@@ -20,13 +20,12 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: secret
           POSTGRES_DB: simplebank
-        ports:
-          - 5436:5432  # Map port 5436 to the default Postgres port
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
 
     steps:
     - uses: actions/checkout@v4
@@ -38,9 +37,18 @@ jobs:
 
     - name: Install golang-migrate
       run: |
-        curl -L https://github.com/golang-migrate/migrate/releases/download/v4.18.1/migrate.linux-amd64.tar.gz | tar xvz
-        sudo mv migrate /usr/local/bin/migrate
-        which migrate
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.18.1/migrate.linux-amd64.tar.gz | tar xvz
+          sudo mv migrate /usr/local/bin/migrate  # Updated to move just 'migrate'
+          which migrate
+          
+  
+    - name: Wait for PostgreSQL
+      run: |
+          until pg_isready -h localhost -p 5432 -U root; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 5
+          done
+        
 
     - name: Run migrations
       run: make migrateup
