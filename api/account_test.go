@@ -373,7 +373,7 @@ func TestListAccountsAPI(t *testing.T) {
 			name: "InvalidPageSize",
 			query: Query{
 				pageID:   1,
-				pageSize: 100000,
+				pageSize: 1000,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
@@ -402,18 +402,19 @@ func TestListAccountsAPI(t *testing.T) {
 			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
+			// Create URL with query parameters
 			url := "/accounts"
-			request, err := http.NewRequest(http.MethodGet, url, nil)
+			req, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
 
-			// Add query parameters to request URL
-			q := request.URL.Query()
+			// Add query parameters to request
+			q := req.URL.Query()
 			q.Add("page_id", fmt.Sprintf("%d", tc.query.pageID))
 			q.Add("page_size", fmt.Sprintf("%d", tc.query.pageSize))
-			request.URL.RawQuery = q.Encode()
+			req.URL.RawQuery = q.Encode()
 
-			tc.setupAuth(t, request, server.tokenMaker)
-			server.router.ServeHTTP(recorder, request)
+			tc.setupAuth(t, req, server.tokenMaker)
+			server.router.ServeHTTP(recorder, req)
 			tc.checkResponse(recorder)
 		})
 	}
