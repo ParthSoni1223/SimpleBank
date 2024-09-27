@@ -1,7 +1,11 @@
 # This workflow will build a Golang project and run tests.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
+<<<<<<< HEAD
 name: Run unit tests
+=======
+name: test
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
 
 on:
   push:
@@ -10,9 +14,13 @@ on:
     branches: [ "main" ]
 
 jobs:
+<<<<<<< HEAD
 
   test:
     name: Test
+=======
+  test:
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
     runs-on: ubuntu-latest
 
     services:
@@ -31,23 +39,42 @@ jobs:
           --health-retries 5
 
     steps:
+<<<<<<< HEAD
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
+=======
+      - uses: actions/checkout@v4
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
+<<<<<<< HEAD
           go-version: '1.21'  # Set to Go version 1.21
+=======
+            go-version: '1.21' # Set to Go version 1.21
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
 
       - name: Install golang-migrate
         run: |
           curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate.linux-amd64.tar.gz | tar xvz
+<<<<<<< HEAD
           sudo mv migrate.linux-amd64 /usr/local/bin/migrate 
           which migrate
+=======
+          sudo mv migrate /usr/local/bin/migrate  # Updated to move just 'migrate'
+          which migrate        
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
 
       - name: Run migrations
         run: make migrateup
 
+<<<<<<< HEAD
+=======
+      - name: Install dependencies
+        run: go mod tidy  # Ensure all dependencies are installed
+
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
       - name: Test
         run: go test -v ./... || true  # Run tests and allow failures

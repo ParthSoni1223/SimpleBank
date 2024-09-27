@@ -1,7 +1,11 @@
 .Phony: postgres createdb dropdb migrateup migratedown sqlc test server mock
 
 postgres:
+<<<<<<< HEAD
 	docker run --name postgres12_new --network bank-network -p 5436:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:12-alpine
+=======
+	docker run --name postgres12_new -p 5436:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:12-alpine
+>>>>>>> ecf97fb9976049ea08a8b2e88ac9ad3c4d049788
 
 createdb:
 	docker exec -it postgres12_new createdb --username=root --owner=root simplebank
